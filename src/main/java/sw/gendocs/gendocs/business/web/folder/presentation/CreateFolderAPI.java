@@ -1,6 +1,7 @@
 package sw.gendocs.gendocs.business.web.folder.presentation;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class CreateFolderAPI {
         Long folderId = createFolderService.createFolder(requestFolder);
 
         return ResponseEntity
-                .ok()
+                .status(HttpStatus.CREATED)
                 .body(ApiResponse.of(folderId));
     }
 }

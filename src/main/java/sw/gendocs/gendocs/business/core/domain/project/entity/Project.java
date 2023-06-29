@@ -1,11 +1,13 @@
 package sw.gendocs.gendocs.business.core.domain.project.entity;
 
-import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import sw.gendocs.gendocs.business.core.domain.common.date.DateTime;
 import sw.gendocs.gendocs.business.core.domain.folder.entity.Folder;
 import sw.gendocs.gendocs.business.core.domain.project.values.ProjectName;
 
+import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Project extends DateTime {
 
+    @javax.persistence.Id
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +28,6 @@ public class Project extends DateTime {
     @Embedded
     private ProjectName projectName;
 
-    @OneToMany
-
-    public Long getId() {
-        return id;
-    }
 
     public List<Folder> getFolders() {
         return folders;
@@ -41,5 +39,13 @@ public class Project extends DateTime {
 
     public String getProjectName() {
         return projectName.getProjectName();
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
