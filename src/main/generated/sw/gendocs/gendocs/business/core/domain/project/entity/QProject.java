@@ -32,6 +32,8 @@ public class QProject extends EntityPathBase<Project> {
     //inherited
     public final DateTimePath<java.time.ZonedDateTime> lastModifiedAt = _super.lastModifiedAt;
 
+    public final StringPath projectName = createString("projectName");
+
     public QProject(String variable) {
         super(Project.class, forVariable(variable));
     }

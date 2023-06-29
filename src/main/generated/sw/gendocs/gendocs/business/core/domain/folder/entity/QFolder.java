@@ -27,6 +27,8 @@ public class QFolder extends EntityPathBase<Folder> {
     //inherited
     public final DateTimePath<java.time.ZonedDateTime> createdAt = _super.createdAt;
 
+    public final StringPath folderName = createString("folderName");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited

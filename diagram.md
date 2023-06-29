@@ -31,6 +31,12 @@ erDiagram
         int parent_id 
     }
     
+    folder {
+        int folder_id PK
+        string folder_name
+        
+    }
+    
 
 ```
 

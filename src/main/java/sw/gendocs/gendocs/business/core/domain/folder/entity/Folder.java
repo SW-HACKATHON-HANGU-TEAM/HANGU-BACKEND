@@ -25,6 +25,9 @@ public class Folder extends DateTime {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "folder")
     private List<Page> pages = new ArrayList<>();
 
+    @Column(name = "folder_name")
+    private String folderName;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_id")
     private Folder parent;
@@ -47,5 +50,13 @@ public class Folder extends DateTime {
 
     public Folder getParent() {
         return parent;
+    }
+
+    public String getFolderName() {
+        return folderName;
+    }
+
+    public Project getProject() {
+        return project;
     }
 }
