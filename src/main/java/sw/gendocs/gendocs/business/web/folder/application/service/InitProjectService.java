@@ -1,7 +1,6 @@
 package sw.gendocs.gendocs.business.web.folder.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sw.gendocs.gendocs.business.core.domain.project.entity.Init;
@@ -9,16 +8,14 @@ import sw.gendocs.gendocs.business.core.domain.project.entity.Project;
 import sw.gendocs.gendocs.business.core.domain.project.infrastructure.command.InitJpaRepository;
 import sw.gendocs.gendocs.business.core.domain.project.infrastructure.command.ProjectJpaRepository;
 import sw.gendocs.gendocs.business.core.domain.project.values.ProjectName;
-import sw.gendocs.gendocs.business.web.folder.presentation.request.RequestProject;
+import sw.gendocs.gendocs.business.web.folder.presentation.request.RequestInit;
 import sw.gendocs.gendocs.business.web.folder.presentation.response.ResponseInit;
-import sw.gendocs.gendocs.business.web.folder.presentation.response.ResponseProject;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ReadProjectService {
+public class InitProjectService {
     private final InitJpaRepository initJpaRepository;
+    private final ProjectJpaRepository projectJpaRepository;
 
     @Transactional
     public ResponseInit getInit(Long initId){
@@ -30,5 +27,25 @@ public class ReadProjectService {
         responseInit.setProcessDescription(init.getProcessDescription());
 
         return responseInit;
+    }
+
+    @Transactional
+    public String deleteInit(Long initId){
+        Init init = initJpaRepository.findById(initId).get();
+        Project project = init.getProject();
+
+        initJpaRepository.deleteById(initId);
+        projectJpaRepository.deleteById(project.getId());
+        return project.getProjectName();
+    }
+    @Transactional
+    public Long createInit(RequestInit requestInit){
+        Project project = new Project();
+        project.setProjectName(ProjectName.from(requestInit.getProjectName()));
+        Project projectEntity = projectJpaRepository.save(project);
+        Init init = new Init(projectEntity, requestInit.getMermaid(), requestInit.getDbDescription(),
+                requestInit.getProcessDescription(), requestInit.getMindMap());
+        initJpaRepository.save(init);
+        return init.getId();
     }
 }

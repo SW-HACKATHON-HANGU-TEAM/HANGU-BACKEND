@@ -61,7 +61,7 @@ public class QFolder extends EntityPathBase<Folder> {
     public QFolder(Class<? extends Folder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.parent = inits.isInitialized("parent") ? new QFolder(forProperty("parent"), inits.get("parent")) : null;
-        this.project = inits.isInitialized("project") ? new sw.gendocs.gendocs.business.core.domain.project.entity.QProject(forProperty("project")) : null;
+        this.project = inits.isInitialized("project") ? new sw.gendocs.gendocs.business.core.domain.project.entity.QProject(forProperty("project"), inits.get("project")) : null;
     }
 
 }
