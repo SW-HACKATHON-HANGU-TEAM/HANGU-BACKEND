@@ -1,7 +1,6 @@
 package sw.gendocs.gendocs.business.core.domain.page.entity;
 
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import sw.gendocs.gendocs.business.core.domain.common.date.DateTime;
 import sw.gendocs.gendocs.business.core.domain.folder.entity.Folder;
 import sw.gendocs.gendocs.business.core.domain.project.values.Description;
@@ -13,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Page extends DateTime {
 
-    @javax.persistence.Id
     @Id
     @Column(name = "page_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,24 +23,30 @@ public class Page extends DateTime {
     @Embedded
     private Description description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
     private Folder folder;
 
 
-    public Title getTitle() {
-        return title;
+    public String getTitle() {
+        return title.getTitle();
     }
 
     public Description getDescription() {
         return description;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public Page(Title title, Description description, Folder folder) {
+        this.title = title;
+        this.description = description;
+        this.folder = folder;
     }
 }

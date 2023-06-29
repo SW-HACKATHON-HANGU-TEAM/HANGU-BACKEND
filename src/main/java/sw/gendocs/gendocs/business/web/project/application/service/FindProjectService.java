@@ -20,7 +20,7 @@ public class FindProjectService {
     public List<ResponseProject> findProjects() {
         List<Project> projects = projectJpaRepository.findAll();
 
-        ArrayList<ResponseProject> responseProjects = new ArrayList<>();
+        List<ResponseProject> responseProjects = new ArrayList<>();
 
         for (Project project : projects) {
             responseProjects.add(new ResponseProject(project.getId(), project.getProjectName()));

@@ -16,10 +16,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class RequestFolder {
 
-    private String folderName;
-
-    private Long parent;
 
     @NotNull
     private Long projectId;
+    private Long parent;
+    @NotNull
+    private String folderName;
+
 }

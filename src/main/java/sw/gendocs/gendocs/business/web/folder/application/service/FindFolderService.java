@@ -3,73 +3,61 @@ package sw.gendocs.gendocs.business.web.folder.application.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import sw.gendocs.gendocs.business.core.domain.folder.entity.Folder;
-import sw.gendocs.gendocs.business.core.domain.folder.entity.SubFolder;
 import sw.gendocs.gendocs.business.core.domain.folder.infrastructure.command.FolderJpaRepository;
+import sw.gendocs.gendocs.business.core.domain.folder.infrastructure.query.FolderQuery;
+import sw.gendocs.gendocs.business.core.domain.page.entity.Page;
+import sw.gendocs.gendocs.business.core.domain.page.infrastructure.command.PageJpaRepository;
 import sw.gendocs.gendocs.business.core.domain.project.entity.Project;
 import sw.gendocs.gendocs.business.core.domain.project.infrastructure.command.ProjectJpaRepository;
 import sw.gendocs.gendocs.business.web.folder.presentation.response.ResponseFolder;
+import sw.gendocs.gendocs.business.web.folder.presentation.response.values.FolderDto;
+import sw.gendocs.gendocs.business.web.folder.presentation.response.values.PageDto;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static sw.gendocs.gendocs.business.web.folder.presentation.response.ResponseFolder.folderToResponseDTO;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class FindFolderService {
 
-    private final FolderJpaRepository folderJpaRepository;
+    private final FolderQuery folderQuery;
     private final ProjectJpaRepository projectJpaRepository;
+    private final FolderJpaRepository folderJpaRepository;
+    private final PageJpaRepository pageJpaRepository;
 
-    @Transactional(readOnly = true)
-    public List<ResponseFolder> findFolderListByProjectId(Long projectId, Long folderId) {
-        if (projectId == null) {
-            throw new IllegalArgumentException("프로젝트 id값은 null이면 안됩니다.");
-        }
-
+    public ResponseFolder findByProjectIdAndFolderId(Long projectId, Long folderId) {
+        List<Folder> folders = new ArrayList<>();
+        Folder folder;
         Project project = projectJpaRepository.findById(projectId)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 id값의 프로젝트가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 id값의 프로젝트가 존재하지 않습니다."));
 
-        List<Folder> folderList = folderId == null ?
-                folderJpaRepository
-                        .findByProject(project) : getFolderListByParentIdAndProject(folderId, project);
+        List<PageDto> pageDtos = new ArrayList<>();
 
-        List<ResponseFolder> responseFolderList = new ArrayList<>();
-        for (Folder folder : folderList) {
-            List<Folder> subFolderList = new ArrayList<>();
-            List<SubFolder> subFolders = folder.getSubFolders();
-            log.info("subFolder size: {}", subFolders.size());
-            for (SubFolder subFolder : subFolders) {
-                Folder sub = folderJpaRepository.findById(subFolder.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("해당 id값의 서브폴더가 존재하지 않습니다."));
-                subFolderList.add(sub);
+        if (folderId == null || folderId < 1) {
+            folders = folderQuery.findByProject(project);
+        } else {
+            folder = folderJpaRepository.findById(folderId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 id값의 폴더가 존재하지 않습니다."));
+            folders = folderQuery.findByProjectAndParentFolder(project, folder);
+            List<Page> pages = pageJpaRepository.findByFolder(folder);
+
+            log.info("pages size: {}", pages.size());
+
+            for (Page page : pages) {
+                PageDto pageDto = new PageDto(page.getId(), page.getTitle());
+                pageDtos.add(pageDto);
             }
-            ResponseFolder responseFolder = folderToResponseDTO(folder, subFolderList);
-            responseFolderList.add(responseFolder);
         }
 
-        return responseFolderList;
+        List<FolderDto> folderDtos = new ArrayList<>();
+        for (Folder folder1 : folders) {
+            FolderDto folderDto = new FolderDto(folder1.getId(), folder1.getFolderName());
+            folderDtos.add(folderDto);
+        }
+
+        ResponseFolder responseFolder = new ResponseFolder(folderDtos, pageDtos);
+        return responseFolder;
     }
-
-    public List<Folder> getFolderListByParentIdAndProject(Long folderId, Project project) {
-        List<Folder> folderList;
-        Folder parent = folderJpaRepository.findById(folderId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 id값의 부모폴더는 존재하지 않습니다."));
-//        List<SubFolder> subFolders = parent.getSubFolders();
-//
-//        List<Folder> subFolderList = new ArrayList<>();
-//        for (SubFolder subFolder : subFolders) {
-//            Folder folder = folderJpaRepository.findById(subFolder.getId())
-//                    .orElseThrow(() -> new IllegalArgumentException("해당 id값의 서브폴더가 존재하지 않습니다."));
-//            subFolderList.add(folder);
-//        }
-
-        folderList = folderJpaRepository.findByProject(project, parent);
-
-        return folderList;
-    }
-
 }

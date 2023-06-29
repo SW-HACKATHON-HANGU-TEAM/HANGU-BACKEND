@@ -21,9 +21,6 @@ public class Folder extends DateTime implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sub_folder_id")
-    private List<SubFolder> subFolders = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "folder")
     private List<Page> pages = new ArrayList<>();
@@ -35,13 +32,19 @@ public class Folder extends DateTime implements Serializable {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_id")
+    private Folder parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    private List<Folder> children = new ArrayList<>();
+
+
+
     public Long getId() {
         return id;
     }
 
-    public List<SubFolder> getSubFolders() {
-        return subFolders;
-    }
 
     public List<Page> getPages() {
         return pages;
@@ -55,14 +58,31 @@ public class Folder extends DateTime implements Serializable {
         return project;
     }
 
-    public Folder(String folderName, Folder parent, Project project) {
+    public Folder(String folderName, Project project) {
         this.folderName = folderName;
-        if (project != null) {
-            this.project = project;
-        }
+        this.project = project;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Folder(String folderName, Project project, Folder parent) {
+        this.folderName = folderName;
+        this.project = project;
+        this.parent = parent;
+    }
+
+    public Folder getParent() {
+        return parent;
+    }
+
+    public void changeParent(Folder parent) {
+        this.parent = parent;
+    }
+
+    public void addChild(Folder child) {
+        this.children.add(child);
+        child.setParent(this);
+    }
+
+    public void setParent(Folder parent) {
+        this.parent = parent;
     }
 }

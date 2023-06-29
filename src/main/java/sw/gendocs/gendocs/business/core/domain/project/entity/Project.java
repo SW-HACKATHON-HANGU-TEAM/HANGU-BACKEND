@@ -21,31 +21,28 @@ public class Project extends DateTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id")
     private List<Folder> folders = new ArrayList<>();
 
     @Embedded
     private ProjectName projectName;
 
+    public Project(ProjectName projectName) {
+        this.projectName = projectName;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public List<Folder> getFolders() {
         return folders;
-    }
-
-    public Project(ProjectName projectName) {
-        this.projectName = projectName;
     }
 
     public String getProjectName() {
         return projectName.getProjectName();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public Long getId() {
-        return id;
-    }
 }

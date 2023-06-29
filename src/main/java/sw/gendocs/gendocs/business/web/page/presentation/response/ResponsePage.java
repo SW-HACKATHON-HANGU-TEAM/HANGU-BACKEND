@@ -14,11 +14,4 @@ public class ResponsePage {
     private String title;
     private String description;
 
-    public static ResponsePage pageToResponseDTO(Page page) {
-        return new ResponsePage(
-                page.getId(),
-                page.getTitle().getTitle(),
-                page.getDescription().getDescription()
-        );
-    }
 }

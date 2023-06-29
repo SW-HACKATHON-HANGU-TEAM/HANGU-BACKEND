@@ -8,7 +8,6 @@ import sw.gendocs.gendocs.business.web.folder.application.service.FindFolderServ
 import sw.gendocs.gendocs.business.web.folder.presentation.response.ResponseFolder;
 import sw.gendocs.gendocs.common.response.ApiResponse;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +21,9 @@ public class FindFolderAPI {
             @PathVariable("projectId") Long projectId,
             @Nullable @RequestParam Long folderId
     ) {
-        List<ResponseFolder> responseFolderList = findFolderService.findFolderListByProjectId(projectId, folderId);
+        ResponseFolder responseFolder = findFolderService.findByProjectIdAndFolderId(projectId, folderId);
         return ResponseEntity
                 .ok()
-                .body(ApiResponse.of(responseFolderList));
+                .body(ApiResponse.of(responseFolder));
     }
 }
