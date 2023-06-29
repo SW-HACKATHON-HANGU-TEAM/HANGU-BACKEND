@@ -6,7 +6,6 @@ import sw.gendocs.gendocs.business.core.domain.page.entity.Page;
 import sw.gendocs.gendocs.business.core.domain.page.infrastructure.command.PageJpaRepository;
 import sw.gendocs.gendocs.business.web.page.presentation.response.ResponsePage;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

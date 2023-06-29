@@ -4,7 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import sw.gendocs.gendocs.business.core.domain.folder.entity.Folder;
-import sw.gendocs.gendocs.business.core.domain.folder.entity.QFolder;
 import sw.gendocs.gendocs.business.core.domain.project.entity.Project;
 
 import java.util.List;
