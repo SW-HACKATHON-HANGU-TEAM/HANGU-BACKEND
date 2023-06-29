@@ -27,21 +27,14 @@ public class CreateFolderService {
 
         Folder save;
         if (requestFolder.getParent() != null) {
-//            Folder parentFolder = folderJpaRepository.findById(requestFolder.getParent())
-//                    .orElseThrow(() -> new IllegalArgumentException("해당 id의 폴더가 존재하지 않습니다."));
-//
-//            Folder saveFolder = new Folder(requestFolder.getFolderName(), project);
-//            parentFolder.addChild(saveFolder);
-//            save = folderJpaRepository.save(parentFolder);
-//            save.changeParent(parentFolder);
             Folder parentFolder = folderJpaRepository.findById(requestFolder.getParent())
                     .orElseThrow(() -> new IllegalArgumentException("해당 id의 폴더가 존재하지 않습니다."));
 
             Folder saveFolder = new Folder(requestFolder.getFolderName(), project);
-            Folder save1 = folderJpaRepository.save(saveFolder);// save the parent after adding the child
+            Folder save1 = folderJpaRepository.save(saveFolder);
             parentFolder.addChild(save1);
 
-            save = saveFolder; // reference to the saved child
+            save = saveFolder;
 
         } else {
             log.info("folderName: {}", requestFolder.getFolderName());
