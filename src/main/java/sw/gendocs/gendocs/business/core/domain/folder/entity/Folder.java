@@ -59,4 +59,14 @@ public class Folder extends DateTime {
     public Project getProject() {
         return project;
     }
+
+    public Folder(String folderName, Folder parent, Project project) {
+        this.folderName = folderName;
+        if (parent != null) {
+            this.parent = parent;
+        }
+        if (project != null) {
+            this.project = project;
+        }
+    }
 }
