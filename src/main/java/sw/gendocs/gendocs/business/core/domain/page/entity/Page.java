@@ -3,7 +3,6 @@ package sw.gendocs.gendocs.business.core.domain.page.entity;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import sw.gendocs.gendocs.business.core.domain.common.date.DateTime;
-import sw.gendocs.gendocs.business.core.domain.folder.entity.Folder;
 import sw.gendocs.gendocs.business.core.domain.project.values.Description;
 import sw.gendocs.gendocs.business.core.domain.project.values.Title;
 
@@ -24,11 +23,6 @@ public class Page extends DateTime {
 
     @Embedded
     private Description description;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "folder_id")
-    private Folder folder;
-
 
     public Title getTitle() {
         return title;
