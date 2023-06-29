@@ -1,11 +1,11 @@
-package sw.gendocs.gendocs.business.web.folder.application.service;
+package sw.gendocs.gendocs.business.web.project.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sw.gendocs.gendocs.business.core.domain.project.entity.Project;
 import sw.gendocs.gendocs.business.core.domain.project.infrastructure.command.ProjectJpaRepository;
-import sw.gendocs.gendocs.business.web.folder.presentation.response.ResponseProject;
+import sw.gendocs.gendocs.business.web.project.presentation.response.ResponseProject;
 
 import java.util.ArrayList;
 import java.util.List;

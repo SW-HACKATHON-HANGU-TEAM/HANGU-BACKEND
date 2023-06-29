@@ -1,4 +1,4 @@
-package sw.gendocs.gendocs.business.web.folder.presentation.request;
+package sw.gendocs.gendocs.business.web.project.presentation.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
