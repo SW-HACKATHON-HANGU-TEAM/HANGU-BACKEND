@@ -1,4 +1,4 @@
-package sw.gendocs.gendocs.business.web.folder.application.service;
+package sw.gendocs.gendocs.business.web.init.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

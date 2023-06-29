@@ -1,9 +1,9 @@
-package sw.gendocs.gendocs.business.web.folder.presentation;
+package sw.gendocs.gendocs.business.web.init.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sw.gendocs.gendocs.business.web.folder.application.service.InitProjectService;
+import sw.gendocs.gendocs.business.web.init.application.service.InitProjectService;
 import sw.gendocs.gendocs.business.web.folder.presentation.request.RequestInit;
 import sw.gendocs.gendocs.business.web.folder.presentation.response.ResponseInit;
 import sw.gendocs.gendocs.common.response.ApiResponse;
