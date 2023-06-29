@@ -1,4 +1,4 @@
-package sw.gendocs.gendocs.business.web.folder.presentation.response;
+package sw.gendocs.gendocs.business.web.project.presentation.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

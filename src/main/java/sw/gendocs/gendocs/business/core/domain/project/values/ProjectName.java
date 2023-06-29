@@ -1,7 +1,6 @@
 package sw.gendocs.gendocs.business.core.domain.project.values;
 
-import jakarta.persistence.Embeddable;
-
+import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
